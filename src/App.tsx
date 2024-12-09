@@ -86,7 +86,6 @@ function App() {
 
   const renderLandingPage = () => (
     <div className="flex flex-col md:flex-row items-center justify-center bg-gray-50 p-8 gap-8 rounded-xl mt-6">
-      {/* Features Column (Left) */}
       <div className="flex flex-col gap-6 text-center md:text-left md:w-1/3">
         <div className="flex items-start gap-4">
           <div className="bg-blue-100 p-3 rounded-full">
@@ -117,16 +116,19 @@ function App() {
         </div>
       </div>
 
-      {/* Mobile Device Mockup */}
       <div className="relative flex justify-center items-center w-full md:w-1/3">
         <img
-          src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=1974"
+          src="https://images.unsplash.com/photo-1664706599545-41abae195a57?auto=format&fit=crop&q=80&w=1974"
           alt="Document Scanning"
           className="w-72 rounded-xl shadow-2xl"
         />
+        <div className="ocrloader">
+          <p>Scanning</p>
+          <em></em>
+          <span></span>
+        </div>
       </div>
 
-      {/* Features Column (Right) */}
       <div className="flex flex-col gap-6 text-center md:text-left md:w-1/3">
         <div className="flex items-start gap-4">
           <div className="bg-blue-100 p-3 rounded-full">

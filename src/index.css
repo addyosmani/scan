@@ -1,3 +1,135 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.ocrloader {
+  width: 280px;
+  height: 200px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+.ocrloader span::before {
+  content: "";
+  position: absolute;
+  top: 5%;
+  bottom: 0;
+  left: 4%;
+  width: 10px;
+  height: 90%;
+  background: #17A34A;
+  box-shadow: 0 0 50px 10px #17A34A;
+  clip-path: inset(0);
+  animation:
+    x 1s ease-in-out infinite alternate,
+    y 1s ease-in-out infinite;
+}
+
+.ocrloader p::before {
+  content: '';
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #17A34A;
+  position: relative;
+  right: 4px;
+}
+
+.ocrloader p {
+  color: #17A34A;
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 16px;
+  font-weight: 600;
+  animation: blinker 1s linear infinite;
+  font-family: sans-serif;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.ocrloader:before,
+.ocrloader:after,
+.ocrloader em:after,
+.ocrloader em:before {
+  border-color: #17A34A;
+  content: "";
+  position: absolute;
+  width: 45px;
+  height: 46px;
+  border-style: solid;
+  border-width: 0px;
+}
+
+.ocrloader:before {
+  left: 0;
+  top: 0;
+  border-left-width: 5px;
+  border-top-width: 5px;
+  border-radius: 5px 0 0 0;
+}
+
+.ocrloader:after {
+  right: 0;
+  top: 0;
+  border-right-width: 5px;
+  border-top-width: 5px;
+  border-radius: 0 5px 0 0;
+}
+
+.ocrloader em:before {
+  left: 0;
+  bottom: 0;
+  border-left-width: 5px;
+  border-bottom-width: 5px;
+  border-radius: 0 0 0 5px;
+}
+
+.ocrloader em:after {
+  right: 0;
+  bottom: 0;
+  border-right-width: 5px;
+  border-bottom-width: 5px;
+  border-radius: 0 0 5px 0;
+}
+
+@keyframes move {
+  0%,
+  100% {
+    transform: translateY(190px);
+  }
+  50% {
+    transform: translateY(0%);
+  }
+  75% {
+    transform: translateY(160px);
+  }
+}
+
+@keyframes blinker {
+  50% { opacity: 0; }
+}
+
+@keyframes x {
+  to {
+    transform: translateX(-100%);
+    left: 100%;
+  }
+}
+
+@keyframes y {
+  33% {
+    clip-path: inset(0 0 0 -100px);
+  }
+  50% {
+    clip-path: inset(0 0 0 0);
+  }
+  83% {
+    clip-path: inset(0 -100px 0 0);
+  }
+}
