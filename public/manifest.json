@@ -1,0 +1,43 @@
+{
+  "name": "Scan - Web Document Scanner",
+  "short_name": "Scan",
+  "description": "Free web-based document scanner with PDF export capabilities",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-256x256.png",
+      "sizes": "256x256",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "utilities"],
+  "screenshots": [
+    {
+      "src": "https://images.unsplash.com/photo-1588681664899-f142ff2dc9b1?auto=format&fit=crop&q=80&w=2874",
+      "sizes": "2874x1916",
+      "type": "image/jpeg",
+      "platform": "wide",
+      "label": "Document scanning in action"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Take Photo",
+      "short_name": "Scan",
+      "description": "Start scanning a new document",
+      "url": "/?action=scan",
+      "icons": [{ "src": "/icon-256x256.png", "sizes": "256x256" }]
+    }
+  ]
+}
