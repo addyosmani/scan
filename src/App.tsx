@@ -52,6 +52,15 @@ function App() {
     setPages(prev => prev.filter(page => page.id !== id));
   };
 
+  const handleReorder = (fromIndex: number, toIndex: number) => {
+    setPages(prev => {
+      const newPages = [...prev];
+      const [movedPage] = newPages.splice(fromIndex, 1);
+      newPages.splice(toIndex, 0, movedPage);
+      return newPages;
+    });
+  };
+
   const handleDownload = async () => {
     if (pages.length === 0) return;
 
@@ -150,7 +159,11 @@ function App() {
             )}
           </div>
 
-          <DocumentList pages={pages} onDelete={handleDelete} />
+          <DocumentList 
+            pages={pages} 
+            onDelete={handleDelete}
+            onReorder={handleReorder}
+          />
         </div>
       </main>
 
