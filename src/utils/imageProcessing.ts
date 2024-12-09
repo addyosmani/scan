@@ -1,3 +1,5 @@
+import type { Orientation } from '../types';
+
 export const processImage = async (
   imageData: string,
   cropArea: { x: number; y: number; width: number; height: number }
@@ -10,9 +12,10 @@ export const processImage = async (
       
       if (!ctx) return;
 
-      // Set canvas size to A4 proportions
-      canvas.width = 2480;
-      canvas.height = 3508;
+      // Set canvas size based on crop aspect ratio
+      const isPortrait = cropArea.height > cropArea.width;
+      canvas.width = isPortrait ? 2480 : 3508;
+      canvas.height = isPortrait ? 3508 : 2480;
 
       // Draw and crop image
       ctx.drawImage(

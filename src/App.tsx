@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Camera, Upload, FileText, Download } from 'lucide-react';
+import { Camera, Upload, FileText, Download, RefreshCw } from 'lucide-react';
 import { Camera as CameraComponent } from './components/Camera';
 import { ImageCropper } from './components/ImageCropper';
 import { DocumentList } from './components/DocumentList';
+import { Footer } from './components/Footer';
 import { processImage } from './utils/imageProcessing';
 import { generatePDF } from './utils/pdfGenerator';
 import type { DocumentPage, CropArea } from './types';
@@ -67,8 +68,15 @@ function App() {
     }
   };
 
+  const handleReset = () => {
+    setPages([]);
+    setCurrentImage(null);
+    setShowCamera(false);
+    setIsProcessing(false);
+  };
+
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 flex flex-col">
       <header className="bg-white shadow">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <h1 className="text-3xl font-bold text-gray-900 flex items-center">
@@ -78,7 +86,7 @@ function App() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 py-6">
+      <main className="max-w-7xl mx-auto px-4 py-6 flex-grow">
         {showCamera && (
           <CameraComponent
             onCapture={handleCapture}
@@ -104,7 +112,7 @@ function App() {
         )}
 
         <div className="space-y-6">
-          <div className="flex space-x-4">
+          <div className="flex flex-wrap gap-4">
             <button
               onClick={() => setShowCamera(true)}
               className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
@@ -123,19 +131,30 @@ function App() {
               />
             </label>
             {pages.length > 0 && (
-              <button
-                onClick={handleDownload}
-                className="flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
-              >
-                <Download className="mr-2" />
-                Download PDF
-              </button>
+              <>
+                <button
+                  onClick={handleDownload}
+                  className="flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                >
+                  <Download className="mr-2" />
+                  Download PDF
+                </button>
+                <button
+                  onClick={handleReset}
+                  className="flex items-center px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                >
+                  <RefreshCw className="mr-2" />
+                  Reset
+                </button>
+              </>
             )}
           </div>
 
           <DocumentList pages={pages} onDelete={handleDelete} />
         </div>
       </main>
+
+      <Footer />
     </div>
   );
 }

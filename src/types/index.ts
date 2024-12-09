@@ -10,3 +10,5 @@ export interface CropArea {
   width: number;
   height: number;
 }
+
+export type Orientation = 'portrait' | 'landscape';
