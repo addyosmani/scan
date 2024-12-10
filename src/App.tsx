@@ -92,8 +92,8 @@ function App() {
             <Scan className="h-6 w-6 text-blue-600" />
           </div>
           <div>
-            <h3 className="font-bold text-lg">Smart Document Scanning</h3>
-            <p className="text-gray-600">Capture documents with precision using your device's camera or upload existing images. Our smart cropping ensures perfect scans every time.</p>
+            <h3 className="font-bold text-lg">Smart, Private Document Scanning</h3>
+            <p className="text-gray-600">Capture documents with precision using your device's camera or upload existing images. Images never leave your device.</p>
           </div>
         </div>
         <div className="flex items-start gap-4">
