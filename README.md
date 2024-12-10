@@ -2,8 +2,6 @@
 
 A modern, web-based document scanner built with React. Scan documents using your device's camera or upload existing images, process them for clarity, and convert them to PDF format.
 
-![Scan Demo](https://images.unsplash.com/photo-1588681664899-f142ff2dc9b1?auto=format&fit=crop&q=80&w=2874)
-
 ## ✨ Features
 
 - 📱 Mobile-optimized interface
