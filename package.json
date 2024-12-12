@@ -16,7 +16,8 @@
     "jspdf": "^2.5.1",
     "react-easy-crop": "^5.0.5",
     "react-webcam": "^7.2.0",
-    "opencv.js": "^1.2.1"
+    "opencv.js": "^1.2.1",
+    "tesseract.js": "^5.0.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",

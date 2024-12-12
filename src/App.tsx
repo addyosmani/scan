@@ -1,165 +1,28 @@
-import React, { useState } from 'react';
-import { Camera, Upload, FileText, Download, RefreshCw, Scan, Layers, Maximize2, FileOutput, Settings2, Smartphone } from 'lucide-react';
+import React from 'react';
+import { Camera, Upload, FileText, Download, RefreshCw } from 'lucide-react';
 import { Camera as CameraComponent } from './components/Camera';
 import { ImageCropper } from './components/ImageCropper';
 import { DocumentList } from './components/DocumentList';
+import { TextExtractor } from './components/TextExtractor';
 import { Footer } from './components/Footer';
-import { processImage } from './utils/imageProcessing';
-import { generatePDF } from './utils/pdfGenerator';
-import type { DocumentPage, CropArea } from './types';
+import { LandingPage } from './components/LandingPage';
+import { useDocumentScanner } from './hooks/useDocumentScanner';
 
 function App() {
-  const [pages, setPages] = useState<DocumentPage[]>([]);
-  const [showCamera, setShowCamera] = useState(false);
-  const [currentImage, setCurrentImage] = useState<string | null>(null);
-  const [isProcessing, setIsProcessing] = useState(false);
-
-  const handleCapture = (imageData: string) => {
-    setCurrentImage(imageData);
-    setShowCamera(false);
-  };
-
-  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setCurrentImage(e.target?.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleCropComplete = async (croppedArea: CropArea) => {
-    if (!currentImage) return;
-    
-    setIsProcessing(true);
-    try {
-      const processedImage = await processImage(currentImage, croppedArea);
-      setPages(prev => [...prev, {
-        id: Date.now().toString(),
-        imageData: processedImage,
-        processed: true
-      }]);
-    } catch (error) {
-      console.error('Error processing image:', error);
-    }
-    setIsProcessing(false);
-    setCurrentImage(null);
-  };
-
-  const handleDelete = (id: string) => {
-    setPages(prev => prev.filter(page => page.id !== id));
-  };
-
-  const handleReorder = (fromIndex: number, toIndex: number) => {
-    setPages(prev => {
-      const newPages = [...prev];
-      const [movedPage] = newPages.splice(fromIndex, 1);
-      newPages.splice(toIndex, 0, movedPage);
-      return newPages;
-    });
-  };
-
-  const handleDownload = async () => {
-    if (pages.length === 0) return;
-
-    try {
-      const pdfBlob = await generatePDF(pages.map(page => page.imageData));
-      const url = URL.createObjectURL(pdfBlob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'document.pdf';
-      link.click();
-      URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error('Error generating PDF:', error);
-    }
-  };
-
-  const handleReset = () => {
-    setPages([]);
-    setCurrentImage(null);
-    setShowCamera(false);
-    setIsProcessing(false);
-  };
-
-  const renderLandingPage = () => (
-    <div className="flex flex-col md:flex-row items-center justify-center bg-gray-50 p-8 gap-8 rounded-xl mt-6">
-      <div className="flex flex-col gap-6 text-center md:text-left md:w-1/3">
-        <div className="flex items-start gap-4">
-          <div className="bg-blue-100 p-3 rounded-full">
-            <Scan className="h-6 w-6 text-blue-600" />
-          </div>
-          <div>
-            <h3 className="font-bold text-lg">Smart, Private Document Scanning</h3>
-            <p className="text-gray-600">Capture documents with precision using your device's camera or upload existing images. Images never leave your device.</p>
-          </div>
-        </div>
-        <div className="flex items-start gap-4">
-          <div className="bg-blue-100 p-3 rounded-full">
-            <Settings2 className="h-6 w-6 text-blue-600" />
-          </div>
-          <div>
-            <h3 className="font-bold text-lg">Advanced Processing</h3>
-            <p className="text-gray-600">Automatic enhancement features clean up your scans, adjust contrast, and optimize text readability for professional results.</p>
-          </div>
-        </div>
-        <div className="flex items-start gap-4">
-          <div className="bg-blue-100 p-3 rounded-full">
-            <Layers className="h-6 w-6 text-blue-600" />
-          </div>
-          <div>
-            <h3 className="font-bold text-lg">Multi-Page Support</h3>
-            <p className="text-gray-600">Create multi-page documents effortlessly. Reorder pages, preview in full screen, and manage your document structure with ease.</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="relative flex justify-center items-center w-full md:w-1/3 mb-12 mt-8 md:mb-0 md:mt-0">
-        <img
-          src="https://images.unsplash.com/photo-1664706599545-41abae195a57?auto=format&fit=crop&q=80&w=1974"
-          alt="Document Scanning"
-          className="w-72 rounded-xl shadow-2xl"
-        />
-        <div className="ocrloader">
-          <p>Scanning</p>
-          <em></em>
-          <span></span>
-        </div>
-      </div>
-
-      <div className="flex flex-col gap-6 text-center md:text-left md:w-1/3">
-        <div className="flex items-start gap-4">
-          <div className="bg-blue-100 p-3 rounded-full">
-            <Smartphone className="h-6 w-6 text-blue-600" />
-          </div>
-          <div>
-            <h3 className="font-bold text-lg">Mobile Optimized</h3>
-            <p className="text-gray-600">Fully responsive design works seamlessly on all devices. Switch between portrait and landscape orientations for perfect captures.</p>
-          </div>
-        </div>
-        <div className="flex items-start gap-4">
-          <div className="bg-blue-100 p-3 rounded-full">
-            <Maximize2 className="h-6 w-6 text-blue-600" />
-          </div>
-          <div>
-            <h3 className="font-bold text-lg">Full Preview Control</h3>
-            <p className="text-gray-600">Review your scans in full-screen mode. Ensure every detail is captured perfectly before finalizing your document.</p>
-          </div>
-        </div>
-        <div className="flex items-start gap-4">
-          <div className="bg-blue-100 p-3 rounded-full">
-            <FileOutput className="h-6 w-6 text-blue-600" />
-          </div>
-          <div>
-            <h3 className="font-bold text-lg">Instant PDF Export</h3>
-            <p className="text-gray-600">Convert your scans into professional PDF documents with a single click. Perfect for sharing or archiving.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+  const {
+    pages,
+    showCamera,
+    currentImage,
+    isProcessing,
+    setShowCamera,
+    handleCapture,
+    handleFileSelect,
+    handleCropComplete,
+    handleDelete,
+    handleReorder,
+    handleDownload,
+    handleReset
+  } = useDocumentScanner();
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
@@ -238,13 +101,19 @@ function App() {
             )}
           </div>
 
-          {pages.length === 0 && !showCamera && !currentImage && !isProcessing && renderLandingPage()}
+          {pages.length === 0 && !showCamera && !currentImage && !isProcessing && <LandingPage />}
 
           <DocumentList 
             pages={pages} 
             onDelete={handleDelete}
             onReorder={handleReorder}
           />
+
+          {pages.length > 0 && (
+            <div className="mt-8">
+              <TextExtractor pages={pages} />
+            </div>
+          )}
         </div>
       </main>
 
