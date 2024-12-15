@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FileText, Loader } from 'lucide-react';
+import { FileText, Loader, Copy } from 'lucide-react';
 import { extractTextFromImage } from '../utils/textExtraction';
 import type { DocumentPage } from '../types';
 
@@ -27,24 +27,44 @@ export const TextExtractor: React.FC<TextExtractorProps> = ({ pages }) => {
     setIsExtracting(false);
   };
 
+  const handleCopyText = async () => {
+    try {
+      await navigator.clipboard.writeText(extractedText);
+    } catch (error) {
+      console.error('Error copying text:', error);
+    }
+  };
+
   return (
     <div className="space-y-4">
-      <button
-        onClick={handleExtractText}
-        disabled={isExtracting || pages.length === 0}
-        className={`flex items-center px-4 py-2 rounded-lg transition-colors ${
-          isExtracting || pages.length === 0
-            ? 'bg-gray-400 cursor-not-allowed'
-            : 'bg-indigo-600 hover:bg-indigo-700 text-white'
-        }`}
-      >
-        {isExtracting ? (
-          <Loader className="mr-2 animate-spin" />
-        ) : (
-          <FileText className="mr-2" />
+      <div className="flex gap-2">
+        <button
+          onClick={handleExtractText}
+          disabled={isExtracting || pages.length === 0}
+          className={`flex items-center px-4 py-2 rounded-lg transition-colors ${
+            isExtracting || pages.length === 0
+              ? 'bg-gray-400 cursor-not-allowed'
+              : 'bg-indigo-600 hover:bg-indigo-700 text-white'
+          }`}
+        >
+          {isExtracting ? (
+            <Loader className="mr-2 animate-spin" />
+          ) : (
+            <FileText className="mr-2" />
+          )}
+          {isExtracting ? 'Extracting Text...' : 'Extract Text'}
+        </button>
+
+        {extractedText && (
+          <button
+            onClick={handleCopyText}
+            className="flex items-center px-4 py-2 rounded-lg transition-colors bg-green-600 hover:bg-green-700 text-white"
+          >
+            <Copy className="mr-2" />
+            Copy Text
+          </button>
         )}
-        {isExtracting ? 'Extracting Text...' : 'Extract Text'}
-      </button>
+      </div>
 
       {extractedText && (
         <div className="mt-4">
