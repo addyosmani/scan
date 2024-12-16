@@ -2,6 +2,8 @@
 
 A modern, web-based document scanner built with React. Scan documents using your device's camera or upload existing images, process them for clarity, and convert them to PDF format.
 
+![](https://scan.addy.ie/meta.jpg)
+
 ## ✨ Features
 
 - 📱 Mobile-optimized interface
